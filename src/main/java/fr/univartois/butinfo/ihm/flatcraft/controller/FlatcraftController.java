@@ -94,15 +94,11 @@ public class FlatcraftController implements IFlatcraftController {
         stage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             KeyCode code = e.getCode();
             if (code == KeyCode.LEFT) {
-                jeu.moveLeft();
+                if (e.isAltDown()) jeu.digLeft();
+                else jeu.moveLeft();
             } else if (code == KeyCode.RIGHT) {
-                jeu.moveRight();
-            } else if (code == KeyCode.S) {
-                jeu.digDown();
-            } else if (code == KeyCode.Q) {
-                jeu.digLeft();
-            } else if (code == KeyCode.D) {
-                jeu.digRight();
+                if (e.isAltDown()) jeu.digRight();
+                else jeu.moveRight();
             }
         });
     }
