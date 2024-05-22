@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide empty members
+left to right direction
+
+class Grille
+
+class Ressource {
+nom : String
+image : String
+}
+
+class Case {
+image: String
+setRessource(ressource: Ressource): void
+}
+
+class Mobile
+
+class Mob extends Mobile
+class Joueur extends Mobile
+
+class Jeu {
+start() : void
+stop() : void
+pause() : void
+resume() : void
+deplacerJoueur: (x : int, y : int) : void
+getRessource(x: int, y: int) : Ressource
+}
+
+Mob *-- "0.*" Jeu
+Grille *-- "1.*" Case
+Case *-- "0.1" Ressource
+
+@enduml

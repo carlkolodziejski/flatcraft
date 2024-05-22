@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal"
+            fx:controller="fr.univartois.butinfo.ihm.flatcraft.controller.FlatcraftController">
+    <bottom>
+        <HBox alignment="CENTER" spacing="10.0">
+            <HBox alignment="CENTER">
+                <children>
+                    <Label text="PV : "/>
+                    <ProgressBar fx:id="barreDeVie" prefWidth="200.0" progress="0.0"/>
+                </children>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button mnemonicParsing="false" onAction="#onInventaireButtonClick" text="Inventaire"/>
+            <Button mnemonicParsing="false" onAction="#onEtabliButtonClick" text="Établi"/>
+            <Button mnemonicParsing="false" onAction="#onFourneauButtonClick" text="Fourneau"/>
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0"/>
+            </padding>
+        </HBox>
+    </bottom>
+    <center>
+        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                   prefHeight="400.0" prefWidth="600.0">
+            <children>
+                <GridPane fx:id="background" gridLinesVisible="true">
+                </GridPane>
+                <GridPane fx:id="mainPane" gridLinesVisible="true" layoutX="10.0" layoutY="10.0">
+                </GridPane>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>
