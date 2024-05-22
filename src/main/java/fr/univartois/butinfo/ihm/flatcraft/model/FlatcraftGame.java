@@ -91,7 +91,7 @@ public final class FlatcraftGame {
         map = GameMapGenerator.generateMapWithTreesAndSlagHeaps(getHeight(), getWidth(), cellFactory, 5, 2);
         controleur.initGame(map);
         joueur = new Player(this, spriteStore.createSprite("player"));
-        joueur.setRow(map.getSoilHeight());
+        joueur.setRow(map.getSoilHeight() - 1);
         joueur.setColumn(0);
         controleur.afficherMovable(joueur);
         controleur.setHealthProperty(joueur.getHealthProperty());
