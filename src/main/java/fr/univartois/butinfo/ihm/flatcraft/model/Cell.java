@@ -138,7 +138,6 @@ public final class Cell {
         if (resource == null) {
             this.resource = null;
             this.sprite.set(null);
-
         } else {
             this.resource = resource;
             this.sprite.set(resource.getSprite());
