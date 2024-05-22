@@ -91,7 +91,7 @@ public final class FlatcraftGame {
         map = GameMapGenerator.generateMapWithTreesAndSlagHeaps(getHeight(), getWidth(), cellFactory, 5, 2);
         controleur.initGame(map);
         joueur = new Player(this, spriteStore.createSprite("player"));
-        joueur.setRow(map.getSoilHeight());
+        joueur.setRow(map.getSoilHeight() - 1);
         joueur.setColumn(0);
         controleur.afficherMovable(joueur);
         controleur.setHealthProperty(joueur.getHealthProperty());
@@ -147,13 +147,17 @@ public final class FlatcraftGame {
     private void move(AbstractMovable movable) {
         // On applique la gravité.
         Cell currentCell = getCellOf(movable);
+
         controleur.masquerMovable(movable);
+
+        // Boucle qui déplace le personnage vers le bas jusqu'à ce qu'il soit positionné sur une ressource non nulle.
         for (int row = currentCell.getRow() + 1; row < map.getHeight(); row++) {
             Cell below = map.getAt(row, currentCell.getColumn());
             if (!below.move(movable)) {
                 break;
             }
         }
+
         controleur.afficherMovable(movable);
     }
 
@@ -173,7 +177,7 @@ public final class FlatcraftGame {
      */
     public void digLeft() {
         Cell currentCell = getCellOf(joueur);
-        if ((currentCell.getColumn() - 1) > 0) {
+        if ((currentCell.getColumn() - 1) >= 0) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() - 1).dig(joueur);
             move(joueur);
         }
