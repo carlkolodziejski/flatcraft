@@ -97,8 +97,12 @@ public class FlatcraftController implements IFlatcraftController {
                 jeu.moveLeft();
             } else if (code == KeyCode.RIGHT) {
                 jeu.moveRight();
-            } else if (code == KeyCode.DOWN) {
+            } else if (code == KeyCode.S) {
                 jeu.digDown();
+            } else if (code == KeyCode.Q) {
+                jeu.digLeft();
+            } else if (code == KeyCode.D) {
+                jeu.digRight();
             }
         });
     }
