@@ -164,7 +164,7 @@ public final class Cell {
      */
     public boolean move(AbstractMovable movable) {
         if (resource == null) {
-            movable.setRow(row + 1);
+            movable.setRow(row);
             return true;
         }
         return false;
