@@ -177,7 +177,7 @@ public final class FlatcraftGame {
      */
     public void digLeft() {
         Cell currentCell = getCellOf(joueur);
-        if ((currentCell.getColumn() - 1) > 0) {
+        if ((currentCell.getColumn() - 1) >= 0) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() - 1).dig(joueur);
             move(joueur);
         }
