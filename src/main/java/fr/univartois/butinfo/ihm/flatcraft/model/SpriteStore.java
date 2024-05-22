@@ -76,10 +76,13 @@ public final class SpriteStore {
      */
     private Image loadImage(String name) {
         try {
+            // S'assure que l'image sera correctement chargée (à cause du nom des images qui diffère).
             URL urlImage = getClass().getResource("../view/images/default_" + name + ".png");
             if (urlImage == null) urlImage = getClass().getResource("../view/images/gui_" + name + ".png");
             if (urlImage == null) urlImage = getClass().getResource("../view/images/" + name + ".png");
+
             assert urlImage != null;
+
             return new Image(urlImage.toExternalForm(), getSpriteSize(), getSpriteSize(), true, true);
 
         } catch (NullPointerException | IllegalArgumentException e) {
