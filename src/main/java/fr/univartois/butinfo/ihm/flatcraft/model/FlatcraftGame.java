@@ -147,12 +147,14 @@ public final class FlatcraftGame {
     private void move(AbstractMovable movable) {
         // On applique la gravité.
         Cell currentCell = getCellOf(movable);
+        controleur.masquerMovable(movable);
         for (int row = currentCell.getRow() + 1; row < map.getHeight(); row++) {
             Cell below = map.getAt(row, currentCell.getColumn());
             if (!below.move(movable)) {
                 break;
             }
         }
+        controleur.afficherMovable(movable);
     }
 
     /**
