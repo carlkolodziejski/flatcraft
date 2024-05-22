@@ -14,6 +14,7 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  * Tous droits réservés.
  */
 
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 import java.util.NoSuchElementException;
@@ -25,6 +26,11 @@ import java.util.NoSuchElementException;
  * @version 0.1.0
  */
 public final class Player extends AbstractMovable {
+
+    /**
+     * Attribut correspondant à l'inventaire du joueur.
+     */
+    private ObservableList<Resource> inventaire;
 
     /**
      * Crée une nouvelle instance de fr.univartois.butinfo.ihm.flatcraft.model.Player.
@@ -42,7 +48,7 @@ public final class Player extends AbstractMovable {
      * @param resource L'objet à ajouter.
      */
     public void addToInventory(Resource resource) {
-        // TODO : Ajouter l'objet à l'inventaire du joueur.
+        inventaire.add(resource);
     }
 
     /**
@@ -52,7 +58,7 @@ public final class Player extends AbstractMovable {
      * @throws NoSuchElementException Si l'objet n'est pas présent dans l'inventaire.
      */
     public void removeFromInventory(Resource resource) {
-        // TODO : Retirer l'objet de l'inventaire du joueur.
+        inventaire.remove(resource);
     }
 
 }
