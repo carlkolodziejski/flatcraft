@@ -9,12 +9,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class FlatcraftController implements IFlatcraftController {
 
@@ -77,11 +80,16 @@ public class FlatcraftController implements IFlatcraftController {
     }
 
     @FXML
-    void onInventaireButtonClick(ActionEvent event) {
+    void onInventaireButtonClick(ActionEvent event) throws IOException {
         // Il faut d'abord récupérer la description de la vue (au format FXML).
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./view/inventaire-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/inventaire-view.fxml"));
         Parent viewContent = fxmlLoader.load();
-        // TODO Finir d'afficher la vue de l'inventaire.
+
+        InventaireControleur controleur = new InventaireControleur();
+        controleur.setStage(stage);
+
+        Scene scene = new Scene(viewContent, 1280, 720);
+        stage.setScene(scene);
     }
 
     @Override
