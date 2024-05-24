@@ -63,4 +63,7 @@ public final class Player extends AbstractMovable {
         inventaire.remove(resource);
     }
 
+    public ObservableList<Resource> getInventaire() {
+        return inventaire;
+    }
 }
