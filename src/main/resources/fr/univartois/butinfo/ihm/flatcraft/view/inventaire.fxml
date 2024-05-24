@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.30267558528428096" maxHeight="-Infinity" maxWidth="-Infinity"
+           minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+           xmlns="http://javafx.com/javafx/11.0.14-internal">
+    <items>
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Label text="INVENTAIRE"/>
+                <Label fx:id="nomItem" layoutX="66.0" layoutY="10.0" text="Veuillez sélectionner un item"/>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </VBox>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <center>
+                <Label fx:id="descriptionItem" BorderPane.alignment="CENTER"/>
+            </center>
+            <bottom>
+                <Button mnemonicParsing="false" onAction="#onRetourButtonClick" text="Retour"
+                        BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="5.0"/>
+                    </BorderPane.margin>
+                </Button>
+            </bottom>
+        </BorderPane>
+    </items>
+</SplitPane>
