@@ -14,6 +14,7 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  * Tous droits réservés.
  */
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
@@ -30,7 +31,7 @@ public final class Player extends AbstractMovable {
     /**
      * Attribut correspondant à l'inventaire du joueur.
      */
-    private ObservableList<Resource> inventaire;
+    private final ObservableList<Resource> inventaire;
 
     /**
      * Crée une nouvelle instance de fr.univartois.butinfo.ihm.flatcraft.model.Player.
@@ -40,6 +41,7 @@ public final class Player extends AbstractMovable {
      */
     public Player(FlatcraftGame game, Image sprite) {
         super(game, sprite, 3);
+        this.inventaire = FXCollections.observableArrayList();
     }
 
     /**
