@@ -125,6 +125,7 @@ public final class FlatcraftGame {
         moveRight(joueur);
     }
 
+
     /**
      * Fait se déplacer un objet mobile vers la droite.
      *
@@ -135,6 +136,28 @@ public final class FlatcraftGame {
         if (((column + 1) < map.getWidth())) {
             controleur.masquerMovable(movable);
             movable.setColumn(column + 1);
+            controleur.afficherMovable(movable);
+        }
+    }
+
+    /**
+     * Fait se déplacer le joueur vers le haut.
+     */
+    public void moveUp() {
+        moveUp(joueur);
+    }
+
+    /**
+     * Fait se déplace un objet mobile vers le haut si la ressource située dans la cellule au-dessus de lui est nulle.
+     *
+     * @param movable L'objet mobile à déplacer.
+     */
+    public void moveUp(AbstractMovable movable) {
+        int row = movable.getRow();
+        int rowAbove = row - 1;
+        if ((rowAbove >= 0) && map.getAt(rowAbove, movable.getColumn()).getResource() == null) {
+            controleur.masquerMovable(movable);
+            movable.setRow(rowAbove);
             controleur.afficherMovable(movable);
         }
     }

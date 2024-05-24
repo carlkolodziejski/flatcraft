@@ -130,21 +130,6 @@ public final class Cell {
     }
 
     /**
-     * Modifie la ressource présente sur cette cellule sur la carte.
-     *
-     * @param resource La ressource à placer sur cette cellule.
-     */
-    public void setResource(Resource resource) {
-        if (resource == null) {
-            this.resource = null;
-            this.sprite.set(null);
-        } else {
-            this.resource = resource;
-            this.sprite.set(resource.getSprite());
-        }
-    }
-
-    /**
      * Modifie cette cellule pour qu'elle soit dans le même état que la cellule donnée.
      *
      * @param cell La cellule à copier pour remplacer celle-ci.
@@ -186,4 +171,22 @@ public final class Cell {
         return false;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    /**
+     * Modifie la ressource présente sur cette cellule sur la carte.
+     *
+     * @param resource La ressource à placer sur cette cellule.
+     */
+    public void setResource(Resource resource) {
+        if (resource == null) {
+            this.resource = null;
+            this.sprite.set(null);
+        } else {
+            this.resource = resource;
+            this.sprite.set(resource.getSprite());
+        }
+    }
 }
