@@ -14,6 +14,8 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  * Tous droits réservés.
  */
 
+import java.util.Objects;
+
 /**
  * La classe {@link FlatcraftGame} permet de gérer une partie du jeu Flatcraft.
  *
@@ -193,18 +195,52 @@ public final class FlatcraftGame {
     }
 
     /**
-     * Fait se déplace un objet mobile vers le haut si la ressource située dans la cellule au-dessus de lui est nulle.
+     * Fait se déplacer un movable vers le haut s'il est situé sur une échelle.
      *
-     * @param movable L'objet mobile à déplacer.
+     * @param movable Le movable à déplacer.
      */
     public void moveUp(AbstractMovable movable) {
         int row = movable.getRow();
         int rowAbove = row - 1;
-        if ((rowAbove >= 0) && map.getAt(rowAbove, movable.getColumn()).getResource() == null) {
+        Resource celluleActuelle = map.getAt(row, movable.getColumn()).getResource();
+
+        if (celluleActuelle != null && (rowAbove >= 0) && Objects.equals(celluleActuelle.getName(), LADDER)) {
             controleur.masquerMovable(movable);
-            movable.setRow(rowAbove);
+            monterOuDescendre(movable, rowAbove);
             controleur.afficherMovable(movable);
         }
+
+    }
+
+    public void moveDown() {
+        moveDown(joueur);
+    }
+
+    /**
+     * Fait se déplacer un movable vers le bas si la ressource en-dessous de lui est une échelle.
+     *
+     * @param movable Le movable à déplacer.
+     */
+    public void moveDown(AbstractMovable movable) {
+        int row = movable.getRow();
+        int rowBelow = row + 1;
+
+        Resource celluleEnDessous = map.getAt(rowBelow, movable.getColumn()).getResource();
+        if (celluleEnDessous != null && (rowBelow < map.getHeight()) && Objects.equals(celluleEnDessous.getName(), LADDER)) {
+            controleur.masquerMovable(movable);
+            monterOuDescendre(movable, rowBelow);
+            controleur.afficherMovable(movable);
+        }
+    }
+
+    /**
+     * Fait avancer le movable vers le haut ou le bas.
+     *
+     * @param movable     Le movable à déplacer
+     * @param rangeeCible La rangée au-dessus du movable.
+     */
+    private void monterOuDescendre(AbstractMovable movable, int rangeeCible) {
+        movable.setRow(rangeeCible);
     }
 
     /**
