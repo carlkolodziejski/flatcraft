@@ -219,6 +219,11 @@ public final class FlatcraftGame {
         controleur.masquerMovable(movable);
     }
 
+    public void placerEchelle() {
+        Cell currentCell = getCellOf(joueur);
+        currentCell.setResource(new Resource("ladder", spriteStore.createSprite("ladder")));
+    }
+
     /**
      * Récupére la cellule correspondant à la position d'un objet mobile.
      *
