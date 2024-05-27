@@ -117,10 +117,22 @@ public final class FlatcraftGame {
         int row = movable.getRow();
         int previousColumn = column - 1;
 
-        if ((previousColumn >= 0) && map.getAt(row, previousColumn).getResource() == null) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column - 1);
-            controleur.afficherMovable(movable);
+        if ((previousColumn >= 0)) {
+            if (map.getAt(row, previousColumn).getResource() == null) {
+                controleur.masquerMovable(movable);
+                movable.setColumn(previousColumn);
+                move(joueur);
+                controleur.afficherMovable(movable);
+            } else {
+                int rowAbove = row - 1;
+                boolean blocGrimpable = map.getAt(row, previousColumn).getResource() != null && map.getAt(rowAbove, previousColumn).getResource() == null;
+                if (blocGrimpable) {
+                    controleur.masquerMovable(movable);
+                    movable.setRow(rowAbove);
+                    movable.setColumn(previousColumn);
+                    controleur.afficherMovable(movable);
+                }
+            }
         }
     }
 
@@ -141,10 +153,25 @@ public final class FlatcraftGame {
         int row = movable.getRow();
         int nextColumn = column + 1;
 
-        if (nextColumn < map.getWidth() && map.getAt(row, nextColumn).getResource() == null) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column + 1);
-            controleur.afficherMovable(movable);
+        if (nextColumn < map.getWidth()) {
+            // Si c'est vide à droite, le movable avance à droite.
+            if (map.getAt(row, nextColumn).getResource() == null) {
+                controleur.masquerMovable(movable);
+                movable.setColumn(nextColumn);
+                move(joueur);
+                controleur.afficherMovable(movable);
+            }
+            // S'il y a un bloc à droite, mais pas en haut à droite, le movable grimpe sur le bloc.
+            else {
+                int rowAbove = row - 1;
+                boolean blocGrimpable = map.getAt(row, nextColumn).getResource() != null && map.getAt(rowAbove, nextColumn).getResource() == null;
+                if (blocGrimpable) {
+                    controleur.masquerMovable(movable);
+                    movable.setColumn(nextColumn);
+                    movable.setRow(rowAbove);
+                    controleur.afficherMovable(movable);
+                }
+            }
         }
     }
 
