@@ -81,14 +81,15 @@ public class FlatcraftController implements IFlatcraftController {
 
     @FXML
     void onInventaireButtonClick(ActionEvent event) throws IOException {
-        // Il faut d'abord récupérer la description de la vue (au format FXML).
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/inventaire-view.fxml"));
         Parent viewContent = fxmlLoader.load();
 
-        InventaireControleur controleur = new InventaireControleur();
-        controleur.setStage(stage);
-
-        Scene scene = new Scene(viewContent, 1280, 720);
+        InventaireControleur controleurInventaire = fxmlLoader.getController();
+        controleurInventaire.setStage(stage);
+        controleurInventaire.getInventaire(jeu.getJoueur().getInventaire());
+        controleurInventaire.setScene(this.stage.getScene());
+        Scene scene = new Scene(viewContent);
+        
         stage.setScene(scene);
     }
 
