@@ -203,6 +203,13 @@ public final class FlatcraftGame {
         }
     }
 
+    public void digUp() {
+        Cell currentCell = getCellOf(joueur);
+        if ((currentCell.getRow() - 1) >= 0) {
+            map.getAt(currentCell.getRow() - 1, currentCell.getColumn()).dig(joueur);
+        }
+    }
+
     /**
      * Retire un objet mobile du jeu.
      *
