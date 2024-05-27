@@ -80,6 +80,25 @@ public final class Cell {
         this.sprite.set(resource.getSprite());
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    /**
+     * Modifie la ressource présente sur cette cellule sur la carte.
+     *
+     * @param resource La ressource à placer sur cette cellule.
+     */
+    public void setResource(Resource resource) {
+        if (resource == null) {
+            this.resource = null;
+            this.sprite.set(null);
+        } else {
+            this.resource = resource;
+            this.sprite.set(resource.getSprite());
+        }
+    }
+
     /**
      * Donne la ligne où se trouve cette cellule dans la carte du jeu.
      *
@@ -127,21 +146,6 @@ public final class Cell {
 
     public ObjectProperty<Image> getSpriteProperty() {
         return sprite;
-    }
-
-    /**
-     * Modifie la ressource présente sur cette cellule sur la carte.
-     *
-     * @param resource La ressource à placer sur cette cellule.
-     */
-    public void setResource(Resource resource) {
-        if (resource == null) {
-            this.resource = null;
-            this.sprite.set(null);
-        } else {
-            this.resource = resource;
-            this.sprite.set(resource.getSprite());
-        }
     }
 
     /**

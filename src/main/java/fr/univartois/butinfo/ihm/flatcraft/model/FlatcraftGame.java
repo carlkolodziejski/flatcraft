@@ -114,7 +114,10 @@ public final class FlatcraftGame {
      */
     public void moveLeft(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column - 1) >= 0)) {
+        int row = movable.getRow();
+        int previousColumn = column - 1;
+
+        if ((previousColumn >= 0) && map.getAt(row, previousColumn).getResource() == null) {
             controleur.masquerMovable(movable);
             movable.setColumn(column - 1);
             controleur.afficherMovable(movable);
@@ -135,7 +138,10 @@ public final class FlatcraftGame {
      */
     public void moveRight(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column + 1) < map.getWidth())) {
+        int row = movable.getRow();
+        int nextColumn = column + 1;
+
+        if (nextColumn < map.getWidth() && map.getAt(row, nextColumn).getResource() == null) {
             controleur.masquerMovable(movable);
             movable.setColumn(column + 1);
             controleur.afficherMovable(movable);
