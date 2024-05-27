@@ -39,6 +39,10 @@ public final class FlatcraftGame {
      * La représentation du joueur.
      */
     private Player joueur;
+
+    /**
+     * Le controleur associé à la partie.
+     */
     private IFlatcraftController controleur;
 
     /**
