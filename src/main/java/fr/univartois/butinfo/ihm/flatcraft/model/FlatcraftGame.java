@@ -202,14 +202,36 @@ public final class FlatcraftGame {
     public void moveUp(AbstractMovable movable) {
         int row = movable.getRow();
         int rowAbove = row - 1;
-        Resource celluleActuelle = map.getAt(row, movable.getColumn()).getResource();
 
-        if (celluleActuelle != null && (rowAbove >= 0) && Objects.equals(celluleActuelle.getName(), LADDER)) {
+        Resource celluleActuelle = map.getAt(row, movable.getColumn()).getResource();
+        boolean deplacementPossible = isMoveUpPossible(movable, rowAbove, celluleActuelle);
+
+        if (deplacementPossible) {
             controleur.masquerMovable(movable);
             monterOuDescendre(movable, rowAbove);
             controleur.afficherMovable(movable);
         }
 
+    }
+
+    /**
+     * Vérifie que le déplacement vers le haut est possible.
+     *
+     * @param movable         Le movable qui veut aller vers le haut.
+     * @param rowAbove        La rangée actuelle.
+     * @param celluleActuelle La cellule sur laquelle se trouve le movable.
+     * @return Si le movable peut se déplacer vers le haut.
+     */
+    private boolean isMoveUpPossible(AbstractMovable movable, int rowAbove, Resource celluleActuelle) {
+        Resource celluleAuDessus = map.getAt(rowAbove, movable.getColumn()).getResource();
+
+        // Vérifie si la cellule au-dessus est null, ou que c'est une échelle et qu'elle n'est pas OOB
+        boolean celluleAuDessusDisponible = (celluleAuDessus == null || Objects.equals(celluleAuDessus.getName(), LADDER)) && (rowAbove >= 0);
+
+        // Vérifie si la cellule actuelle est une échelle.
+        boolean celluleActuelleValide = celluleActuelle != null && Objects.equals(celluleActuelle.getName(), LADDER);
+
+        return celluleActuelleValide && celluleAuDessusDisponible;
     }
 
     public void moveDown() {
@@ -226,7 +248,11 @@ public final class FlatcraftGame {
         int rowBelow = row + 1;
 
         Resource celluleEnDessous = map.getAt(rowBelow, movable.getColumn()).getResource();
-        if (celluleEnDessous != null && (rowBelow < map.getHeight()) && Objects.equals(celluleEnDessous.getName(), LADDER)) {
+
+        // Vérifie si la cellule en-dessous n'est pas OOB et que c'est une échelle.
+        boolean celluleEnDessousValide = (rowBelow < map.getHeight()) && Objects.equals(celluleEnDessous.getName(), LADDER);
+
+        if (celluleEnDessousValide) {
             controleur.masquerMovable(movable);
             monterOuDescendre(movable, rowBelow);
             controleur.afficherMovable(movable);
