@@ -1,18 +1,4 @@
-package fr.univartois.butinfo.ihm.flatcraft.model; /**
- * Ce logiciel est distribué à des fins éducatives.
- * <p>
- * Il est fourni "tel quel", sans garantie d’aucune sorte, explicite
- * ou implicite, notamment sans garantie de qualité marchande, d’adéquation
- * à un usage particulier et d’absence de contrefaçon.
- * En aucun cas, les auteurs ou titulaires du droit d’auteur ne seront
- * responsables de tout dommage, réclamation ou autre responsabilité, que ce
- * soit dans le cadre d’un contrat, d’un délit ou autre, en provenance de,
- * consécutif à ou en relation avec le logiciel ou son utilisation, ou avec
- * d’autres éléments du logiciel.
- * <p>
- * (c) 2023-2024 Romain Wallon - Université d'Artois.
- * Tous droits réservés.
- */
+package fr.univartois.butinfo.ihm.flatcraft.model;
 
 import java.util.Objects;
 
@@ -180,7 +166,7 @@ public final class FlatcraftGame {
      */
     private void grimper(AbstractMovable movable, int row, int colonneCible) {
         int rowAbove = row - 1;
-        boolean blocGrimpable = map.getAt(row, colonneCible).getResource() != null && (map.getAt(rowAbove, colonneCible).getResource() == null || map.getAt(rowAbove, colonneCible).getResource().getName().equals("ladder"));
+        boolean blocGrimpable = map.getAt(row, colonneCible).getResource() != null && (map.getAt(rowAbove, colonneCible).getResource() == null || map.getAt(rowAbove, colonneCible).getResource().getName().equals(LADDER));
         if (blocGrimpable) {
             movable.setColumn(colonneCible);
             movable.setRow(rowAbove);
@@ -312,7 +298,6 @@ public final class FlatcraftGame {
         Cell currentCell = getCellOf(joueur);
         if ((currentCell.getColumn() - 1) >= 0) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() - 1).dig(joueur);
-            move(joueur);
         }
     }
 
@@ -323,7 +308,6 @@ public final class FlatcraftGame {
         Cell currentCell = getCellOf(joueur);
         if ((currentCell.getColumn() + 1) < map.getWidth()) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() + 1).dig(joueur);
-            move(joueur);
         }
     }
 
@@ -345,7 +329,7 @@ public final class FlatcraftGame {
 
     public void placerEchelle() {
         Cell currentCell = getCellOf(joueur);
-        currentCell.setResource(new Resource("ladder", spriteStore.createSprite("ladder")));
+        currentCell.setResource(new Resource(LADDER, spriteStore.createSprite(LADDER)));
     }
 
     /**
