@@ -22,6 +22,7 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  */
 public final class FlatcraftGame {
 
+    public static final String LADDER = "ladder";
     /**
      * La largeur de la carte du jeu affichée (en pixels).
      */
@@ -50,7 +51,6 @@ public final class FlatcraftGame {
      * La représentation du joueur.
      */
     private Player joueur;
-
     private IFlatcraftController controleur;
 
     /**
@@ -64,6 +64,10 @@ public final class FlatcraftGame {
         this.height = height;
         this.spriteStore = new SpriteStore();
         this.cellFactory = new CellFactory(spriteStore);
+    }
+
+    public Player getJoueur() {
+        return joueur;
     }
 
     /**
@@ -111,11 +115,14 @@ public final class FlatcraftGame {
      */
     public void moveLeft(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column - 1) >= 0)) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column - 1);
-            controleur.afficherMovable(movable);
+        int row = movable.getRow();
+        int previousColumn = column - 1;
+
+        controleur.masquerMovable(movable);
+        if ((previousColumn >= 0)) {
+            avancer(movable, row, previousColumn);
         }
+        controleur.afficherMovable(movable);
     }
 
     /**
@@ -133,10 +140,48 @@ public final class FlatcraftGame {
      */
     public void moveRight(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column + 1) < map.getWidth())) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column + 1);
-            controleur.afficherMovable(movable);
+        int row = movable.getRow();
+        int nextColumn = column + 1;
+
+        controleur.masquerMovable(movable);
+        if (nextColumn < map.getWidth()) {
+            avancer(movable, row, nextColumn);
+        }
+        controleur.afficherMovable(movable);
+    }
+
+    /**
+     * Fait avancer l'objet mobile vers la droite ou vers la gauche.
+     *
+     * @param movable      Le movable à déplacer.
+     * @param rangee       La rangée actuelle du movable.
+     * @param colonneCible La colonne sur laquelle le movable doit être déplacé.
+     */
+    private void avancer(AbstractMovable movable, int rangee, int colonneCible) {
+        // Si c'est vide à droite ou si c'est une échelle, le movable avance à droite.
+        if (map.getAt(rangee, colonneCible).getResource() == null || map.getAt(rangee, colonneCible).getResource().getName().equals(LADDER)) {
+            movable.setColumn(colonneCible);
+            move(joueur);
+        }
+        // S'il y a un bloc à droite, mais pas en haut à droite, le movable grimpe sur le bloc.
+        else {
+            grimper(movable, rangee, colonneCible);
+        }
+    }
+
+    /**
+     * Fait grimper le movable sur un bloc.
+     *
+     * @param movable      Le movable à déplacer.
+     * @param row          La rangée actuelle du movable.
+     * @param colonneCible La colonne sur laquelle le movable doit être déplacé.
+     */
+    private void grimper(AbstractMovable movable, int row, int colonneCible) {
+        int rowAbove = row - 1;
+        boolean blocGrimpable = map.getAt(row, colonneCible).getResource() != null && (map.getAt(rowAbove, colonneCible).getResource() == null || map.getAt(rowAbove, colonneCible).getResource().getName().equals("ladder"));
+        if (blocGrimpable) {
+            movable.setColumn(colonneCible);
+            movable.setRow(rowAbove);
         }
     }
 
@@ -217,6 +262,13 @@ public final class FlatcraftGame {
         }
     }
 
+    public void digUp() {
+        Cell currentCell = getCellOf(joueur);
+        if ((currentCell.getRow() - 1) >= 0) {
+            map.getAt(currentCell.getRow() - 1, currentCell.getColumn()).dig(joueur);
+        }
+    }
+
     /**
      * Retire un objet mobile du jeu.
      *
@@ -224,6 +276,11 @@ public final class FlatcraftGame {
      */
     public void removeMovable(AbstractMovable movable) {
         controleur.masquerMovable(movable);
+    }
+
+    public void placerEchelle() {
+        Cell currentCell = getCellOf(joueur);
+        currentCell.setResource(new Resource("ladder", spriteStore.createSprite("ladder")));
     }
 
     /**
