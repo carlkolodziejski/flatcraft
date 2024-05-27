@@ -18,6 +18,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * La classe {@link Cell} représente une cellule de la carte du jeu Flatcraft.
  *
@@ -167,7 +169,7 @@ public final class Cell {
      * @return Si l'objet mobile a été déplacé.
      */
     public boolean move(AbstractMovable movable) {
-        if (resource == null) {
+        if (resource == null || Objects.equals(resource.getName(), "ladder")) {
             movable.setRow(row);
             return true;
         }
