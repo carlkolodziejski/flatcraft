@@ -86,10 +86,11 @@ public class FlatcraftController implements IFlatcraftController {
 
         InventaireControleur controleurInventaire = fxmlLoader.getController();
         controleurInventaire.setStage(stage);
+        controleurInventaire.setGameScene(this.stage.getScene());
         controleurInventaire.getInventaire(jeu.getJoueur().getInventaire());
-        controleurInventaire.setScene(this.stage.getScene());
+
+
         Scene scene = new Scene(viewContent);
-        
         stage.setScene(scene);
     }
 

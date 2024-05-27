@@ -14,18 +14,26 @@ import javafx.stage.Stage;
 public class InventaireControleur {
 
     private Stage stage;
-    private Scene scene;
+
+    /**
+     * La scène de la map.
+     */
+    private Scene gameScene;
+
     @FXML
     private ImageView imageItem;
+
     @FXML
     private Label descriptionItem;
+
     @FXML
     private ListView<Resource> listItems;
+
     @FXML
     private Label nomItem;
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
+    public void setGameScene(Scene scene) {
+        this.gameScene = scene;
     }
 
     public void setStage(Stage stage) {
@@ -34,7 +42,7 @@ public class InventaireControleur {
 
     @FXML
     void onRetourButtonClick(ActionEvent event) {
-
+        stage.setScene(gameScene);
     }
 
     /**
