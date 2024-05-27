@@ -118,14 +118,17 @@ public final class FlatcraftGame {
         int previousColumn = column - 1;
 
         if ((previousColumn >= 0)) {
-            if (map.getAt(row, previousColumn).getResource() == null) {
+            // Si c'est vide à gauche ou si c'est une échelle, le movable avance à gauche.
+            if (map.getAt(row, previousColumn).getResource() == null || map.getAt(row, previousColumn).getResource().getName().equals("ladder")) {
                 controleur.masquerMovable(movable);
                 movable.setColumn(previousColumn);
                 move(joueur);
                 controleur.afficherMovable(movable);
-            } else {
+            }
+            // S'il y a un bloc à gauche, mais pas en haut à gauche, le movable grimpe sur le bloc.
+            else {
                 int rowAbove = row - 1;
-                boolean blocGrimpable = map.getAt(row, previousColumn).getResource() != null && map.getAt(rowAbove, previousColumn).getResource() == null;
+                boolean blocGrimpable = map.getAt(row, previousColumn).getResource() != null && (map.getAt(rowAbove, previousColumn).getResource() == null || map.getAt(rowAbove, previousColumn).getResource().getName().equals("ladder"));
                 if (blocGrimpable) {
                     controleur.masquerMovable(movable);
                     movable.setRow(rowAbove);
@@ -154,8 +157,8 @@ public final class FlatcraftGame {
         int nextColumn = column + 1;
 
         if (nextColumn < map.getWidth()) {
-            // Si c'est vide à droite, le movable avance à droite.
-            if (map.getAt(row, nextColumn).getResource() == null) {
+            // Si c'est vide à droite ou si c'est une échelle, le movable avance à droite.
+            if (map.getAt(row, nextColumn).getResource() == null || map.getAt(row, nextColumn).getResource().getName().equals("ladder")) {
                 controleur.masquerMovable(movable);
                 movable.setColumn(nextColumn);
                 move(joueur);
@@ -164,7 +167,7 @@ public final class FlatcraftGame {
             // S'il y a un bloc à droite, mais pas en haut à droite, le movable grimpe sur le bloc.
             else {
                 int rowAbove = row - 1;
-                boolean blocGrimpable = map.getAt(row, nextColumn).getResource() != null && map.getAt(rowAbove, nextColumn).getResource() == null;
+                boolean blocGrimpable = map.getAt(row, nextColumn).getResource() != null && (map.getAt(rowAbove, nextColumn).getResource() == null || map.getAt(rowAbove, nextColumn).getResource().getName().equals("ladder"));
                 if (blocGrimpable) {
                     controleur.masquerMovable(movable);
                     movable.setColumn(nextColumn);
