@@ -22,6 +22,7 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  */
 public final class FlatcraftGame {
 
+    public static final String LADDER = "ladder";
     /**
      * La largeur de la carte du jeu affichée (en pixels).
      */
@@ -157,7 +158,7 @@ public final class FlatcraftGame {
      */
     private void avancer(AbstractMovable movable, int rangee, int colonneCible) {
         // Si c'est vide à droite ou si c'est une échelle, le movable avance à droite.
-        if (map.getAt(rangee, colonneCible).getResource() == null || map.getAt(rangee, colonneCible).getResource().getName().equals("ladder")) {
+        if (map.getAt(rangee, colonneCible).getResource() == null || map.getAt(rangee, colonneCible).getResource().getName().equals(LADDER)) {
             movable.setColumn(colonneCible);
             move(joueur);
         }
