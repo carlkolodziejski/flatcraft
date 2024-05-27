@@ -24,7 +24,6 @@ import java.util.Objects;
  *
  * @author Daniel Le Berre
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
 public final class Resource {
@@ -42,7 +41,7 @@ public final class Resource {
     /**
      * Crée une nouvelle instance de fr.univartois.butinfo.ihm.flatcraft.model.Resource.
      *
-     * @param name Le nom unique identifiant le type de cette ressource.
+     * @param name   Le nom unique identifiant le type de cette ressource.
      * @param sprite L'image représentant cette ressource.
      */
     public Resource(String name, Image sprite) {
@@ -91,4 +90,8 @@ public final class Resource {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

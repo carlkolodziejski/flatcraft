@@ -50,7 +50,6 @@ public final class FlatcraftGame {
      * La représentation du joueur.
      */
     private Player joueur;
-
     private IFlatcraftController controleur;
 
     /**
@@ -64,6 +63,10 @@ public final class FlatcraftGame {
         this.height = height;
         this.spriteStore = new SpriteStore();
         this.cellFactory = new CellFactory(spriteStore);
+    }
+
+    public Player getJoueur() {
+        return joueur;
     }
 
     /**

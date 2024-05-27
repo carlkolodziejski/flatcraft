@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.30267558528428096" maxHeight="-Infinity" maxWidth="-Infinity"
+           minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+           xmlns="http://javafx.com/javafx/11.0.14-internal"
+           fx:controller="fr.univartois.butinfo.ihm.flatcraft.controller.InventaireControleur">
+    <items>
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Label text="INVENTAIRE"/>
+                <Label fx:id="nomItem" layoutX="66.0" layoutY="10.0" text="Veuillez sélectionner un item"/>
+                <ListView fx:id="listItems" prefHeight="200.0" prefWidth="200.0"/>
+            </children>
+        </VBox>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <center>
+                <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fx:id="imageItem" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                                   preserveRatio="true"/>
+                        <Label fx:id="descriptionItem"/>
+                    </children>
+                </VBox>
+            </center>
+            <bottom>
+                <Button mnemonicParsing="false" onAction="#onRetourButtonClick" text="Retour"
+                        BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="5.0"/>
+                    </BorderPane.margin>
+                </Button>
+            </bottom>
+        </BorderPane>
+    </items>
+</SplitPane>

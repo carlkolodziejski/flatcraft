@@ -7,12 +7,17 @@ import fr.univartois.butinfo.ihm.flatcraft.model.IFlatcraftController;
 import javafx.beans.property.IntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class FlatcraftController implements IFlatcraftController {
 
@@ -75,8 +80,18 @@ public class FlatcraftController implements IFlatcraftController {
     }
 
     @FXML
-    void onInventaireButtonClick(ActionEvent event) {
-        // TODO Afficher l'inventaire
+    void onInventaireButtonClick(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/inventaire-view.fxml"));
+        Parent viewContent = fxmlLoader.load();
+
+        InventaireControleur controleurInventaire = fxmlLoader.getController();
+        controleurInventaire.setStage(stage);
+        controleurInventaire.setGameScene(this.stage.getScene());
+        controleurInventaire.getInventaire(jeu.getJoueur().getInventaire());
+
+
+        Scene scene = new Scene(viewContent);
+        stage.setScene(scene);
     }
 
     @Override
