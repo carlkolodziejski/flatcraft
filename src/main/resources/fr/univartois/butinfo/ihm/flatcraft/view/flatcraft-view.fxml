@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal"
-            fx:controller="fr.univartois.butinfo.ihm.flatcraft.controller.FlatcraftController">
+            fx:controller="fr.univartois.butinfo.ihm.flatcraft.controller.FlatcraftControleur">
     <bottom>
         <HBox alignment="CENTER" spacing="10.0">
             <HBox alignment="CENTER">

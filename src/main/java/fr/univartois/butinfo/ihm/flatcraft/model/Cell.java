@@ -18,6 +18,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * La classe {@link Cell} représente une cellule de la carte du jeu Flatcraft.
  *
@@ -130,21 +132,6 @@ public final class Cell {
     }
 
     /**
-     * Modifie la ressource présente sur cette cellule sur la carte.
-     *
-     * @param resource La ressource à placer sur cette cellule.
-     */
-    public void setResource(Resource resource) {
-        if (resource == null) {
-            this.resource = null;
-            this.sprite.set(null);
-        } else {
-            this.resource = resource;
-            this.sprite.set(resource.getSprite());
-        }
-    }
-
-    /**
      * Modifie cette cellule pour qu'elle soit dans le même état que la cellule donnée.
      *
      * @param cell La cellule à copier pour remplacer celle-ci.
@@ -163,7 +150,7 @@ public final class Cell {
      * @return Si l'objet mobile a été déplacé.
      */
     public boolean move(AbstractMovable movable) {
-        if (resource == null) {
+        if (resource == null || Objects.equals(resource.getName(), "ladder")) {
             movable.setRow(row);
             return true;
         }
@@ -186,4 +173,22 @@ public final class Cell {
         return false;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    /**
+     * Modifie la ressource présente sur cette cellule sur la carte.
+     *
+     * @param resource La ressource à placer sur cette cellule.
+     */
+    public void setResource(Resource resource) {
+        if (resource == null) {
+            this.resource = null;
+            this.sprite.set(null);
+        } else {
+            this.resource = resource;
+            this.sprite.set(resource.getSprite());
+        }
+    }
 }

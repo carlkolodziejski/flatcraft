@@ -1,18 +1,6 @@
-package fr.univartois.butinfo.ihm.flatcraft.model; /**
- * Ce logiciel est distribué à des fins éducatives.
- * <p>
- * Il est fourni "tel quel", sans garantie d’aucune sorte, explicite
- * ou implicite, notamment sans garantie de qualité marchande, d’adéquation
- * à un usage particulier et d’absence de contrefaçon.
- * En aucun cas, les auteurs ou titulaires du droit d’auteur ne seront
- * responsables de tout dommage, réclamation ou autre responsabilité, que ce
- * soit dans le cadre d’un contrat, d’un délit ou autre, en provenance de,
- * consécutif à ou en relation avec le logiciel ou son utilisation, ou avec
- * d’autres éléments du logiciel.
- * <p>
- * (c) 2023-2024 Romain Wallon - Université d'Artois.
- * Tous droits réservés.
- */
+package fr.univartois.butinfo.ihm.flatcraft.model;
+
+import java.util.Objects;
 
 /**
  * La classe {@link FlatcraftGame} permet de gérer une partie du jeu Flatcraft.
@@ -22,6 +10,7 @@ package fr.univartois.butinfo.ihm.flatcraft.model; /**
  */
 public final class FlatcraftGame {
 
+    public static final String LADDER = "ladder";
     /**
      * La largeur de la carte du jeu affichée (en pixels).
      */
@@ -50,6 +39,10 @@ public final class FlatcraftGame {
      * La représentation du joueur.
      */
     private Player joueur;
+
+    /**
+     * Le controleur associé à la partie.
+     */
     private IFlatcraftController controleur;
 
     /**
@@ -114,11 +107,14 @@ public final class FlatcraftGame {
      */
     public void moveLeft(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column - 1) >= 0)) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column - 1);
-            controleur.afficherMovable(movable);
+        int row = movable.getRow();
+        int previousColumn = column - 1;
+
+        controleur.masquerMovable(movable);
+        if ((previousColumn >= 0)) {
+            avancer(movable, row, previousColumn);
         }
+        controleur.afficherMovable(movable);
     }
 
     /**
@@ -128,6 +124,7 @@ public final class FlatcraftGame {
         moveRight(joueur);
     }
 
+
     /**
      * Fait se déplacer un objet mobile vers la droite.
      *
@@ -135,11 +132,134 @@ public final class FlatcraftGame {
      */
     public void moveRight(AbstractMovable movable) {
         int column = movable.getColumn();
-        if (((column + 1) < map.getWidth())) {
-            controleur.masquerMovable(movable);
-            movable.setColumn(column + 1);
-            controleur.afficherMovable(movable);
+        int row = movable.getRow();
+        int nextColumn = column + 1;
+
+        controleur.masquerMovable(movable);
+        if (nextColumn < map.getWidth()) {
+            avancer(movable, row, nextColumn);
         }
+        controleur.afficherMovable(movable);
+    }
+
+    /**
+     * Fait avancer l'objet mobile vers la droite ou vers la gauche.
+     *
+     * @param movable      Le movable à déplacer.
+     * @param rangee       La rangée actuelle du movable.
+     * @param colonneCible La colonne sur laquelle le movable doit être déplacé.
+     */
+    private void avancer(AbstractMovable movable, int rangee, int colonneCible) {
+        // Si c'est vide à droite ou si c'est une échelle, le movable avance à droite.
+        if (map.getAt(rangee, colonneCible).getResource() == null || map.getAt(rangee, colonneCible).getResource().getName().equals(LADDER)) {
+            movable.setColumn(colonneCible);
+            move(joueur);
+        }
+        // S'il y a un bloc à droite, mais pas en haut à droite, le movable grimpe sur le bloc.
+        else {
+            grimper(movable, rangee, colonneCible);
+        }
+    }
+
+    /**
+     * Fait grimper le movable sur un bloc.
+     *
+     * @param movable      Le movable à déplacer.
+     * @param row          La rangée actuelle du movable.
+     * @param colonneCible La colonne sur laquelle le movable doit être déplacé.
+     */
+    private void grimper(AbstractMovable movable, int row, int colonneCible) {
+        int rowAbove = row - 1;
+        boolean blocGrimpable = map.getAt(row, colonneCible).getResource() != null && (map.getAt(rowAbove, colonneCible).getResource() == null || map.getAt(rowAbove, colonneCible).getResource().getName().equals(LADDER));
+        if (blocGrimpable) {
+            movable.setColumn(colonneCible);
+            movable.setRow(rowAbove);
+        }
+    }
+
+    /**
+     * Fait se déplacer le joueur vers le haut.
+     */
+    public void moveUp() {
+        moveUp(joueur);
+    }
+
+    /**
+     * Fait se déplacer un movable vers le haut s'il est situé sur une échelle.
+     *
+     * @param movable Le movable à déplacer.
+     */
+    public void moveUp(AbstractMovable movable) {
+        int row = movable.getRow();
+        int rowAbove = row - 1;
+
+        if (rowAbove >= 0) {
+            Resource celluleActuelle = map.getAt(row, movable.getColumn()).getResource();
+            boolean deplacementPossible = isMoveUpPossible(movable, rowAbove, celluleActuelle);
+
+            if (deplacementPossible) {
+                controleur.masquerMovable(movable);
+                monterOuDescendre(movable, rowAbove);
+                controleur.afficherMovable(movable);
+            }
+        }
+    }
+
+    /**
+     * Vérifie que le déplacement vers le haut est possible.
+     *
+     * @param movable         Le movable qui veut aller vers le haut.
+     * @param rowAbove        La rangée actuelle.
+     * @param celluleActuelle La cellule sur laquelle se trouve le movable.
+     * @return Si le movable peut se déplacer vers le haut.
+     */
+    private boolean isMoveUpPossible(AbstractMovable movable, int rowAbove, Resource celluleActuelle) {
+        Resource celluleAuDessus = map.getAt(rowAbove, movable.getColumn()).getResource();
+
+        // Vérifie si la cellule au-dessus est null, ou que c'est une échelle.
+        boolean celluleAuDessusDisponible = celluleAuDessus == null || Objects.equals(celluleAuDessus.getName(), LADDER);
+
+        // Vérifie si la cellule actuelle est une échelle.
+        boolean celluleActuelleValide = celluleActuelle != null && Objects.equals(celluleActuelle.getName(), LADDER);
+
+        return celluleActuelleValide && celluleAuDessusDisponible;
+    }
+
+    public void moveDown() {
+        moveDown(joueur);
+    }
+
+    /**
+     * Fait se déplacer un movable vers le bas si la ressource en-dessous de lui est une échelle.
+     *
+     * @param movable Le movable à déplacer.
+     */
+    public void moveDown(AbstractMovable movable) {
+        int row = movable.getRow();
+        int rowBelow = row + 1;
+        if (rowBelow < map.getHeight()) {
+            Resource celluleEnDessous = map.getAt(rowBelow, movable.getColumn()).getResource();
+
+            // Vérifie si la cellule est une échelle.
+            boolean celluleEnDessousValide = Objects.equals(celluleEnDessous.getName(), LADDER);
+
+            if (celluleEnDessousValide) {
+                controleur.masquerMovable(movable);
+                monterOuDescendre(movable, rowBelow);
+                controleur.afficherMovable(movable);
+            }
+        }
+
+    }
+
+    /**
+     * Fait avancer le movable vers le haut ou le bas.
+     *
+     * @param movable     Le movable à déplacer
+     * @param rangeeCible La rangée au-dessus du movable.
+     */
+    private void monterOuDescendre(AbstractMovable movable, int rangeeCible) {
+        movable.setRow(rangeeCible);
     }
 
     /**
@@ -182,7 +302,6 @@ public final class FlatcraftGame {
         Cell currentCell = getCellOf(joueur);
         if ((currentCell.getColumn() - 1) >= 0) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() - 1).dig(joueur);
-            move(joueur);
         }
     }
 
@@ -193,7 +312,13 @@ public final class FlatcraftGame {
         Cell currentCell = getCellOf(joueur);
         if ((currentCell.getColumn() + 1) < map.getWidth()) {
             map.getAt(currentCell.getRow(), currentCell.getColumn() + 1).dig(joueur);
-            move(joueur);
+        }
+    }
+
+    public void digUp() {
+        Cell currentCell = getCellOf(joueur);
+        if ((currentCell.getRow() - 1) >= 0) {
+            map.getAt(currentCell.getRow() - 1, currentCell.getColumn()).dig(joueur);
         }
     }
 
@@ -204,6 +329,11 @@ public final class FlatcraftGame {
      */
     public void removeMovable(AbstractMovable movable) {
         controleur.masquerMovable(movable);
+    }
+
+    public void placerEchelle() {
+        Cell currentCell = getCellOf(joueur);
+        currentCell.setResource(new Resource(LADDER, spriteStore.createSprite(LADDER)));
     }
 
     /**
