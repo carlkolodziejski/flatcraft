@@ -116,10 +116,10 @@ public class FlatcraftControleur implements IFlatcraftController {
                 else jeu.moveRight();
             } else if (code == KeyCode.DOWN) {
                 if (e.isAltDown()) jeu.digDown();
-                jeu.moveDown();
+                else jeu.moveDown();
             } else if (code == KeyCode.UP) {
                 if (e.isAltDown()) jeu.digUp();
-                jeu.moveUp();
+                else jeu.moveUp();
             } else if (code == KeyCode.E) {
                 jeu.placerEchelle();
             }
