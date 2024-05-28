@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class FlatcraftController implements IFlatcraftController {
+public class FlatcraftControleur implements IFlatcraftController {
 
     private static final int LARGEUR = 1280;
     private static final int HAUTEUR = 720;

@@ -16,7 +16,7 @@
 
 package fr.univartois.butinfo.ihm.flatcraft;
 
-import fr.univartois.butinfo.ihm.flatcraft.controller.FlatcraftController;
+import fr.univartois.butinfo.ihm.flatcraft.controller.FlatcraftControleur;
 import fr.univartois.butinfo.ihm.flatcraft.model.FlatcraftGame;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -58,7 +58,7 @@ public class FlatcraftApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./view/flatcraft-view.fxml"));
         Parent viewContent = fxmlLoader.load();
 
-        FlatcraftController controleur = fxmlLoader.getController();
+        FlatcraftControleur controleur = fxmlLoader.getController();
         controleur.setStage(stage);
 
         // Ensuite, on la place dans une Scene...
